@@ -2,7 +2,6 @@
   "use strict";
 // to see list of tasks and their description: `jake -T`
 
-var EXPECTED_NODE_VERSION = "v9.2.1";
 
   desc("Default build");
   task("default", [ "version" ], function() {
@@ -13,10 +12,13 @@ var EXPECTED_NODE_VERSION = "v9.2.1";
   task("version", function() {
     console.log("Checking node version: .");
 
+    var packageJson = require("./package.json");
+    var expectedVersion = "v" + packageJson.engines.node;
+
     let actualVersion = process.version;
-    if ( actualVersion !== EXPECTED_NODE_VERSION ) {
+    if ( actualVersion !== expectedVersion ) {
       fail( "Incorrect Node version: expected " +
-      EXPECTED_NODE_VERSION +
+      expectedVersion +
       ", but was " + actualVersion );
   }
   });
