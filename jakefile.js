@@ -2,6 +2,7 @@
   "use strict";
 // to see list of tasks and their description: `jake -T`
 
+  let semver = require("semver");
 
   desc("Default build");
   task("default", [ "version" ], function() {
@@ -12,11 +13,11 @@
   task("version", function() {
     console.log("Checking node version: .");
 
-    var packageJson = require("./package.json");
-    var expectedVersion = "v" + packageJson.engines.node;
+    let packageJson = require("./package.json");
+    let expectedVersion = packageJson.engines.node;
 
     let actualVersion = process.version;
-    if ( actualVersion !== expectedVersion ) {
+    if ( semver.neq(expectedVersion, actualVersion ) ) {
       fail( "Incorrect Node version: expected " +
       expectedVersion +
       ", but was " + actualVersion );
